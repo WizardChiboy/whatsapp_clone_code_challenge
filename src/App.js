@@ -1,13 +1,16 @@
 import React from "react";
+import "./App.css";
 import SideBar from "./components/SideBar";
-import MainBar from "./components/MainBar";
+import Chat from "./components/Chat";
 
 function App() {
   return (
     <>
       <div className="app">
-        <SideBar />
-        <MainBar />
+        <div className="app__body">
+          <SideBar />
+          <Chat />
+        </div>
       </div>
     </>
   );
