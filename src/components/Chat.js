@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Chat.css";
 import { SearchOutlined, AttachFile, MoreVert } from "@material-ui/icons";
 import { Avatar, IconButton } from "@material-ui/core";
 import InsertEmoticon from "@material-ui/icons/InsertEmoticon";
 import MicIcon from "@material-ui/icons/Mic";
+import axios from "../axios";
 
 function Chat({ messages }) {
+  const [input, setInput] = useState("");
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+
+    await axios.post("/messages/new", {
+      message: input,
+      name: "Demo Testing",
+      timestamp: "just now",
+      received: false,
+    });
+
+    setInput("");
+  };
   return (
     <>
       <div className="chat">
@@ -34,13 +49,17 @@ function Chat({ messages }) {
 
         <div className="chat-body">
           {messages.map((message) => {
-            <p
-              className={`chat-message ${message.received && "chat-receiver"}`}
-            >
-              <span className="chat-name"> {message.name} </span>
-              {message.message}
-              <span className="chat-timestamp"> {message.timestamp} </span>
-            </p>;
+            return (
+              <p
+                className={`chat-message ${
+                  message.received && "chat-receiver"
+                }`}
+              >
+                <span className="chat-name"> {message.name} </span>
+                {message.message}
+                <span className="chat-timestamp"> {message.timestamp} </span>
+              </p>
+            );
           })}
         </div>
 
@@ -50,8 +69,15 @@ function Chat({ messages }) {
           </IconButton>
 
           <form>
-            <input type="text" placeholder="Type a message" />
-            <button type="submit"> send your message </button>
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              type="text"
+              placeholder="Type a message"
+            />
+            <button onClick={sendMessage} type="submit">
+              send your message
+            </button>
           </form>
 
           <IconButton>
