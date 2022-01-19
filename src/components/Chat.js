@@ -2,10 +2,10 @@ import React from "react";
 import "./Chat.css";
 import { SearchOutlined, AttachFile, MoreVert } from "@material-ui/icons";
 import { Avatar, IconButton } from "@material-ui/core";
-import  InsertEmoticon  from "@material-ui/icons/InsertEmoticon";
-import  MicIcon  from "@material-ui/icons/Mic"
+import InsertEmoticon from "@material-ui/icons/InsertEmoticon";
+import MicIcon from "@material-ui/icons/Mic";
 
-function Chat() {
+function Chat({ messages }) {
   return (
     <>
       <div className="chat">
@@ -33,34 +33,20 @@ function Chat() {
         </div>
 
         <div className="chat-body">
-          <p className="chat-message">
-            <span className="chat-name"> Donmartins </span>
-            hello doncodes, how are you doing?
-            <span className="chat-timestamp"> {new Date().toUTCString()} </span>
-          </p>
-          <p className="chat-message chat-reciever">
-            <span className="chat-name"> doncodes </span>
-            hi Don, we are really cool...
-            <span className="chat-timestamp"> {new Date().toUTCString()} </span>
-          </p>
-          <p className="chat-message">
-            <span className="chat-name"> Donmartins </span>
-            alright, we sure did an awesome build.. kudos
-            <span className="chat-timestamp"> {new Date().toUTCString()} </span>
-          </p>
-
-          <p className="chat-message chat-reciever">
-            <span className="chat-name"> doncodes </span>
-            yea...that's a cool stuff indeed...
-            <span className="chat-timestamp"> {new Date().toUTCString()} </span>
-          </p>
+          {messages.map((message) => {
+            <p
+              className={`chat-message ${message.received && "chat-receiver"}`}
+            >
+              <span className="chat-name"> {message.name} </span>
+              {message.message}
+              <span className="chat-timestamp"> {message.timestamp} </span>
+            </p>;
+          })}
         </div>
 
         <div className="chat-footer">
-
           <IconButton>
-          <InsertEmoticon/>
-
+            <InsertEmoticon />
           </IconButton>
 
           <form>
@@ -69,11 +55,8 @@ function Chat() {
           </form>
 
           <IconButton>
-          <MicIcon/>
-
+            <MicIcon />
           </IconButton>
-
-
         </div>
       </div>
     </>
